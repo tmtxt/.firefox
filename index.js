@@ -10,8 +10,14 @@ const dotfirefox = {
 
   hello: function() {
     console.log('world');
+  },
+
+  configPref: require('./config/pref.js'),
+
+  run: function(){
   }
 };
+dotfirefox.run();
 
 // Create and register the factory
 const contractId = '@truongtx.me/dotfirefox';
