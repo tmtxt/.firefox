@@ -1,4 +1,5 @@
 const {Class} = require('sdk/core/heritage');
+const {Cu, Ci, Cc} = require('chrome');
 const {Unknown, Factory} = require('sdk/platform/xpcom');
 
 const dotfirefox = {
@@ -8,9 +9,8 @@ const dotfirefox = {
     return this;
   },
 
-  hello: function() {
-    console.log('world');
-  },
+  // some global vars
+  Cu, Ci, Cc,
 
   configPref: require('./config/pref.js'),
 
