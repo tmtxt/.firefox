@@ -6,6 +6,7 @@ const dotfirefox = {
   Cu, Ci, Cc,
 
   configPref: require('./config/pref.js'),
+  keySnail: require('./keysnail/index.js'),
 
   run: function(){
   }
