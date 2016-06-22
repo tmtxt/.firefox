@@ -1,14 +1,7 @@
-const {Class} = require('sdk/core/heritage');
 const {Cu, Ci, Cc} = require('chrome');
-const {Unknown, Factory} = require('sdk/platform/xpcom');
 
+// wrap inside an object for exporting to global browser window
 const dotfirefox = {
-  // Component class required props
-  extends: Unknown,
-  get wrappedJSObject() {
-    return this;
-  },
-
   // some global vars
   Cu, Ci, Cc,
 
@@ -17,12 +10,12 @@ const dotfirefox = {
   run: function(){
   }
 };
-dotfirefox.run();
 
-// Create and register the factory
-const contractId = '@truongtx.me/dotfirefox';
-const DotFirefox = Class(dotfirefox);
-Factory({
-  contract: contractId,
-  Component: DotFirefox
-});
+// export to main browser window
+var { viewFor } = require('sdk/view/core');
+var browserWindows = require('sdk/windows').browserWindows;
+const chromeWindow = viewFor(browserWindows[0]);
+chromeWindow.dotfirefox = dotfirefox;
+
+// start running
+dotfirefox.run();
