@@ -42,6 +42,11 @@
 //   getBrowser().mTabContainer.advanceSelectedTab(1, true);
 // }, 'Select next tab', false);
 
+const GLOBAL = 'global'
+const VIEW = 'view';
+const EDIT = 'edit';
+const CARET = 'caret';
+
 const KeySnailConfig = require('./keysnail_config.js');
 
 module.exports = class DefineKeysConfig extends KeySnailConfig {
@@ -56,12 +61,39 @@ module.exports = class DefineKeysConfig extends KeySnailConfig {
       ext.select(arg, ev);
     }, 'List exts and execute selected one', true);
 
-    key.setGlobalKey('C-l', function (ev, arg) {
-      ext.exec('select-next-tab', arg);
-    }, 'Select next tab', true);
+    this.defineKeys(
+      GLOBAL,
+      'C-l',  'select-next-tab',
+      'C-j',  'select-previous-tab'
+    );
+  }
 
-    key.setGlobalKey('C-j', function (ev, arg) {
-      ext.exec('select-previous-tab', arg);
-    }, 'Select previous tab', true);
+
+  defineKeys() {
+    if (arguments.length <= 1) {
+      throw new Error('Too few arguments');
+    }
+
+    if (arguments.length % 2 == 0) {
+      throw new Error('Wrong number of arguments');
+    }
+
+    // key mode is the first arg
+    const key = this.key;
+    const ext = this.ext;
+    const args = Array.prototype.slice.call(arguments);
+    const keyMode = args[0];
+
+    // the rest are the pair of key bindings
+    args.splice(0, 1);
+    const makeHandler = function(command){
+      return function(args) {
+        ext.exec(command, args);
+      }
+    };
+
+    for(var i = 0; i < args.length; i+=2) {
+      key.defineKey([keyMode], args[i], makeHandler(args[i+1]));
+    }
   }
 };
