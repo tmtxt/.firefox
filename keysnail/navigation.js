@@ -7,21 +7,21 @@ module.exports = class NavigationConfig extends KeySnailConfig {
   constructor(window) {
     super(window);
 
-    this.initChangeTabCommands();
+    this.initCommonNavigation();
   }
 
 
-  initChangeTabCommands() {
+  /**
+   * Common navigation
+   */
+  initCommonNavigation() {
+    // new tab
     const window = this.window;
     const ext = this.ext;
-    const {getBrowser} = window;
+    const {focusAndSelectUrlBar} = window;
 
-    ext.add('select-next-tab', () => {
-      getBrowser().mTabContainer.advanceSelectedTab(1, true);
-    }, 'Select next tab');
-
-    ext.add('select-previous-tab', () => {
-      getBrowser().mTabContainer.advanceSelectedTab(-1, true);
-    }, 'Select previous tab');
+    ext.add('find-alternate-url', () => {
+      focusAndSelectUrlBar();
+    }, 'Edit the url in the current buffer');
   }
 };

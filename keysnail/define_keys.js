@@ -50,7 +50,9 @@ module.exports = class DefineKeysConfig extends KeySnailConfig {
       GLOBAL,
       'C-l', 'select-next-tab', 'Select next tab',
       'C-j', 'select-previous-tab', 'Select previous tab',
-      ['C-h', 'b'], 'describe-bindings', 'List all key bindings'
+      ['C-h', 'b'], 'describe-bindings', 'List all key bindings',
+      ['C-x', 'C-d'], 'find-alternate-url', 'Edit the url in the current buffer',
+      ['C-x', 'C-f'], 'open-the-new-tab', 'Open new tab'
     );
 
     // view
