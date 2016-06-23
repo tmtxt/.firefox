@@ -4,26 +4,6 @@
 // const KeySnail = util.getKeySnailInstance();
 // const {key, ext, command} = KeySnail.modules;
 
-// key.setGlobalKey('M-x', function (ev, arg) {
-//   ext.select(arg, ev);
-// }, 'List exts and execute selected one', true);
-
-// key.setViewKey(['f'], function (aEvent, aArg) {
-//   ext.exec('hok-start-foreground-mode', aArg);
-// }, 'Hok - Foreground hint mode', true);
-
-// key.setViewKey(['F'], function (aEvent, aArg) {
-//   ext.exec('hok-start-background-mode', aArg);
-// }, 'HoK - Background hint mode', true);
-
-// key.setViewKey([';'], function (aEvent, aArg) {
-//   ext.exec('hok-yank-foreground-mode', aArg);
-// }, 'HoK - Background hint mode', true);
-
-// key.setGlobalKey(['C-h', 'b'], function (ev) {
-//   key.listKeyBindings();
-// }, 'List all keybindings', false);
-
 // key.setGlobalKey(['C-x', 'd'], function (ev) {
 //   command.focusToById('urlbar');
 // }, 'Focus to the location bar', true);
@@ -51,6 +31,10 @@ const KeySnailConfig = require('./keysnail_config.js');
 
 module.exports = class DefineKeysConfig extends KeySnailConfig {
 
+  /**
+   * Define keys
+   * @param {object} window
+   */
   constructor(window) {
     super(window);
 
@@ -61,20 +45,34 @@ module.exports = class DefineKeysConfig extends KeySnailConfig {
       ext.select(arg, ev);
     }, 'List exts and execute selected one', true);
 
+    // global
     this.defineKeys(
       GLOBAL,
-      'C-l',  'select-next-tab',
-      'C-j',  'select-previous-tab'
+      'C-l', 'select-next-tab', 'Select next tab',
+      'C-j', 'select-previous-tab', 'Select previous tab',
+      ['C-h', 'b'], 'describe-bindings', 'List all key bindings'
+    );
+
+    // view
+    this.defineKeys(
+      VIEW,
+      'f', 'hok-start-foreground-mode', 'Follow a link in current buffer',
+      'F', 'hok-start-background-mode', 'Follow a link in new buffer',
+      ';', 'hok-yank-foreground-mode', 'Copy'
     );
   }
 
 
+  /**
+   * Batch define key
+   * First arg: key mode
+   */
   defineKeys() {
     if (arguments.length <= 1) {
       throw new Error('Too few arguments');
     }
 
-    if (arguments.length % 2 == 0) {
+    if (arguments.length % 3 != 1) {
       throw new Error('Wrong number of arguments');
     }
 
@@ -92,8 +90,11 @@ module.exports = class DefineKeysConfig extends KeySnailConfig {
       }
     };
 
-    for(var i = 0; i < args.length; i+=2) {
-      key.defineKey([keyMode], args[i], makeHandler(args[i+1]));
+    for(var i = 0; i < args.length; i+=3) {
+      const keyStroke = args[i];
+      const command = args[i+1];
+      const desc = args[i+2];
+      key.defineKey([keyMode], keyStroke, makeHandler(command), desc);
     }
   }
 };
