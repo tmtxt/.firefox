@@ -10,11 +10,14 @@ module.exports = class KeySnailConfig {
     this.window = window;
 
     const KeySnail = window.KeySnail;
-    const {key, ext, command} = KeySnail.modules;
+    const {key, ext, command, plugins, hook, util} = KeySnail.modules;
 
     this.KeySnail = KeySnail;
     this.key = key;
     this.ext = ext;
     this.command = command;
+    this.plugins = plugins;
+    this.hook = hook;
+    this.util = util;
   }
 };
