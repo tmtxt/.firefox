@@ -60,7 +60,8 @@ module.exports = class DefineKeysConfig extends KeySnailConfig {
       VIEW,
       'f', 'hok-start-foreground-mode', 'Follow a link in current buffer',
       'F', 'hok-start-background-mode', 'Follow a link in new buffer',
-      ';', 'hok-yank-foreground-mode', 'Copy'
+      ';', 'hok-yank-foreground-mode', 'Copy',
+      'j', 'scroll-line-down', 'Scroll'
     );
   }
 

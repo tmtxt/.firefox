@@ -38,8 +38,7 @@ module.exports = class CommonConfig extends KeySnailConfig {
       }
 
       const {KeyEvent} = window;
-      if (KeySnail.windowType === 'navigator:browser' && !marked)
-      {
+      if (KeySnail.windowType === 'navigator:browser' && !marked) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
       }
     });
